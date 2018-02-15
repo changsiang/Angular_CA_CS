@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col-lg-4">
       <h2>Search for GIF Stickers</h2>
-      <form #searchForm="ngForm" (ngSubmit)="processSearch()">
+      <form #searchForm="ngForm" (ngSubmit)="processSearch(4)">
         <table>
           <tr>
             <td>
@@ -21,6 +21,10 @@
 
       <app-giphy *ngFor="let i of results; let j = index" [imageId]="i.id" [imageUrl]="i.imageUrl" [listIndex]="j">
       </app-giphy>
+
+      <!--TODO: Add Pagination-->
+      <app-pager></app-pager>
+      
     </div>
     <div class="col-lg-4">
       <h2>Selected Sticker Collection</h2>
@@ -34,6 +38,7 @@
     </div>
     <div class="col-lg-4">
       <h2>Retrieve Saved Collection</h2>
+
       <form #retrieveForm="ngForm" (ngSubmit)="retrieveList()">
         <input type="text" name="userId" placeholder="User ID" required ngModel>
         <input type="text" name="collectionName" placeholder="Collection Name" required ngModel>
@@ -44,8 +49,7 @@
       <span *ngFor="let i of retrievedList">
         <img src={{i.imageUrl}} height="150px"/>
       </span>
-
     </div>
-
+          
   </div>
 </div>

@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClientJsonpModule } from '@angular/common/http/src/module';
 import { jsonObject } from './jsonObject';
 import { query } from '@angular/core/src/animation/dsl';
+import { Pagination } from './pagination';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
   results: Result[];
   contents: Result[] = [];
   jsonObject: jsonObject;
+  pagination: Pagination;
 
   private addSub: Subscription;
   private removeSub: Subscription;
@@ -56,18 +58,22 @@ export class AppComponent implements OnInit {
 
   }
 
-  processSearch(): void{
+  processSearch(page: number): void{
     this.results = [];
 
     const queryParams = new HttpParams()
     .set("api_key", "UPpDj2qgw8b0SQe2do0XFh0OTlc4zg0Q")
     .set("q", this.searchForm.value.searchBox)
-    .set("limit", "25");
+    .set("limit", "25")
+    .set("offset", (page * 25).toString());
 
     this.httpClient.get<Data>(this.url,{params: queryParams})
     .subscribe((data) => {
       console.log("data ", data);
-
+      console.log("pagination", data.pagination)
+      this.pagination = {total_count: data.pagination.total_count, count: data.pagination.count, offset: data.pagination.offset};
+      console.log(">>> Current Page" + (Math.ceil(this.pagination.offset / this.pagination.count)).toString());
+      console.log(">>> Total Pages" + (Math.ceil(this.pagination.total_count / this.pagination.count)).toString());
       for(let i of data.data)
       {
         this.results.push({
@@ -76,10 +82,9 @@ export class AppComponent implements OnInit {
           imageUrl: `https://media1.giphy.com/media/${i.id}/giphy.gif`,
         })
         console.log("i", i.id);
-      }
-      
-    })
-    
+      }   
+   }  
+  )
     console.log(">>> Submit Button Pressed " + this.searchForm.value.searchBox);
 
   }
