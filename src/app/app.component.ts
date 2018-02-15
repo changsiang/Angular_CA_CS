@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { HttpClientJsonpModule } from '@angular/common/http/src/module';
 import { jsonObject } from './jsonObject';
+import { query } from '@angular/core/src/animation/dsl';
 
 
 @Component({
@@ -18,7 +19,11 @@ import { jsonObject } from './jsonObject';
 export class AppComponent implements OnInit {
   title = 'My Giphy Sticker Book';
   url = 'https://api.giphy.com/v1/gifs/search';
+  dipSAprojectUrl = 'http://127.0.0.1:8080/GiphyProject/collections/'
   @ViewChild('searchForm') searchForm: NgForm;
+  @ViewChild('retrieveForm') retrieveForm: NgForm;
+  @ViewChild('selectedForm') selectedForm: NgForm;
+  retrievedList: Result[];
   results: Result[];
   contents: Result[] = [];
   jsonObject: jsonObject;
@@ -88,8 +93,31 @@ export class AppComponent implements OnInit {
   }
 
   saveList(){
-    this.jsonObject = {data: this.contents, userId: "test", collectionName: "testcol"};
-    console.log(this.postData('http://127.0.0.1:8080/GiphyProject/collections/', this.jsonObject));
+    this.jsonObject = {data: this.contents, userId: this.selectedForm.value.userId, collectionName: this.selectedForm.value.collectionName};
+    console.log(this.postData(this.dipSAprojectUrl, this.jsonObject));
     console.log(JSON.stringify(this.jsonObject));
+    //clear the list after it has been submitted
+    this.contents.splice(0, this.contents.length);
+  }
+
+  retrieveList(){
+    this.retrievedList = [];
+
+    var queryUrl = this.dipSAprojectUrl + this.retrieveForm.value.userId + "/" + this.retrieveForm.value.collectionName;
+    this.httpClient.get<Data>(queryUrl)
+    .subscribe((data) => {
+      console.log(">>> RetrieveData", data)
+
+      for (let i of data.data){
+        this.retrievedList.push({
+          id: i.id,
+          imageUrl: `https://media1.giphy.com/media/${i.id}/giphy.gif`,
+          slug: "nothing"
+        })
+        console.log("i", i.id);
+      }
+    })
+
+    
   }
 }

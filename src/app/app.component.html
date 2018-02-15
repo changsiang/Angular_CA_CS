@@ -1,34 +1,51 @@
 <!--The content below is only a placeholder and can be replaced.-->
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
+<h1>
+  Welcome to {{ title }}!
+</h1>
 
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-6">
-            <form #searchForm="ngForm" (ngSubmit)="processSearch()">
-                <table>
-                  <tr>
-                    <td>
-                      <input type="text" name="searchBox" placeholder="Please enter a search query" required ngModel>
-                      <button type="submit" [disabled]="searchForm.invalid">Search...</button>
-                    </td>
-                  </tr>
-                </table>
-              </form>
-              
-                <app-giphy *ngFor = "let i of results; let j = index"
-                  [imageId] = "i.id"
-                  [imageUrl] = "i.imageUrl"
-                  [listIndex] = "j">
-                </app-giphy>
-        </div>
-        <div class="col-lg-6">
-            <h2>Selected Sticker Collection</h2>
-            <app-basket [basket]="contents"></app-basket>
+  <div class="row">
+    <div class="col-lg-4">
+      <h2>Search for GIF Stickers</h2>
+      <form #searchForm="ngForm" (ngSubmit)="processSearch()">
+        <table>
+          <tr>
+            <td>
+              <input type="text" name="searchBox" placeholder="Please enter a search query" required ngModel>
+              <button type="submit" class="btn btn-primary" [disabled]="searchForm.invalid">Search...</button>
+            </td>
+          </tr>
+        </table>
+      </form>
 
-            <button class="btn btn-success" (click)="saveList()">Save Sticker List</button>
-        </div>
+      <app-giphy *ngFor="let i of results; let j = index" [imageId]="i.id" [imageUrl]="i.imageUrl" [listIndex]="j">
+      </app-giphy>
     </div>
+    <div class="col-lg-4">
+      <h2>Selected Sticker Collection</h2>
+      <form #selectedForm="ngForm" (ngSubmit)="saveList()">
+        <input type="text" name="userId" id="User ID" required ngModel>
+        <input type="text" name="collectionName" id="Collection Name" required ngModel>
+  
+      <button type="submit" class="btn btn-success" [disabled]="selectedForm.invalid">Save Sticker List</button>
+    </form>
+      <app-basket [basket]="contents"></app-basket>
+    </div>
+    <div class="col-lg-4">
+      <h2>Retrieve Saved Collection</h2>
+      <form #retrieveForm="ngForm" (ngSubmit)="retrieveList()">
+        <input type="text" name="userId" placeholder="User ID" required ngModel>
+        <input type="text" name="collectionName" placeholder="Collection Name" required ngModel>
+
+        <button type="submit" class="btn btn-warning" [disabled]="retrieveForm.invalid">Retrieve Sticker List</button>
+      </form>
+
+      <span *ngFor="let i of retrievedList">
+        <img src={{i.imageUrl}} height="150px"/>
+      </span>
+
+    </div>
+
+  </div>
 </div>
