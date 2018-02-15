@@ -14,6 +14,7 @@ export class GiphyComponent implements OnInit {
   readonly ORIGINAL_SIZE = '/100.gif'
   @Input() imageId: string;
   @Input() imageUrl: string;
+  @Input() listIndex: number;
   result:Result;
 
   ngOnInit() {
@@ -26,6 +27,7 @@ export class GiphyComponent implements OnInit {
     console.log("click>>>>> click here!!", this.imageUrl, this.imageId)
     this.result = { id: this.imageId, imageUrl: this.imageUrl, slug: "Nothing"};
     this.giphySvc.added.next(this.result);
+    this.giphySvc.delete.next(this.listIndex);
   }
 
 }

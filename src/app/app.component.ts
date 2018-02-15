@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'My Giphy Search Application';
+  title = 'My Giphy Sticker Book';
   url = 'https://api.giphy.com/v1/gifs/search';
   @ViewChild('searchForm') searchForm: NgForm;
   results: Result[];
@@ -21,6 +21,8 @@ export class AppComponent implements OnInit {
 
   private addSub: Subscription;
   private removeSub: Subscription;
+  private deleteSub: Subscription;
+  private returnSub: Subscription;
 
   constructor(private httpClient: HttpClient, private giphySvc:GiphyserviceService){
 
@@ -34,8 +36,14 @@ export class AppComponent implements OnInit {
     this.removeSub = this.giphySvc.removed.subscribe((i) => {
       this.contents.splice(i, 1);
     })
-
     
+    this.deleteSub = this.giphySvc.delete.subscribe((i) => {
+      this.results.splice(i, 1);
+    })
+
+    this.returnSub = this.giphySvc.return.subscribe((data) =>{
+      this.results.push(data);
+    })
 
   }
 

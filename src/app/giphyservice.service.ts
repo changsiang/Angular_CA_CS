@@ -7,5 +7,7 @@ export class GiphyserviceService {
 
   added = new EventEmitter<Result>();
   removed = new EventEmitter<number>();
+  delete = new EventEmitter<number>();
+  return = new EventEmitter<Result>();
 
 }

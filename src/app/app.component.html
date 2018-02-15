@@ -18,13 +18,14 @@
                 </table>
               </form>
               
-                <app-giphy *ngFor = "let i of results"
+                <app-giphy *ngFor = "let i of results; let j = index"
                   [imageId] = "i.id"
-                  [imageUrl] = "i.imageUrl">
+                  [imageUrl] = "i.imageUrl"
+                  [listIndex] = "j">
                 </app-giphy>
         </div>
         <div class="col-lg-6">
-            <h2>Another Container here</h2>
+            <h2>Selected Sticker Collection</h2>
             <app-basket [basket]="contents"></app-basket>
         </div>
     </div>
