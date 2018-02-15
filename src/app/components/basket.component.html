@@ -1,0 +1,10 @@
+<div *ngIf="basket.length > 0">
+
+  <h2>List of GIFs</h2>
+  <span *ngFor="let b of basket; let i = index">
+  <button class="btn btn-link" (click)="removeFromBasket(i)">
+      <img src="{{ b.imageUrl }}" id="{{ b.imageId }}" height="150px"/>
+  </button>
+    </span>
+
+</div>

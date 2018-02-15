@@ -1,22 +1,31 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
   <h1>
     Welcome to {{ title }}!
   </h1>
-  <form #searchForm="ngForm" (ngSubmit)="processSearch()">
-  <table>
-    <tr>
-      <td>
-        <input type="text" name="searchBox" placeholder="Please enter a search query" required ngModel>
-        <button type="submit" [disabled]="searchForm.invalid">Search...</button>
-      </td>
-    </tr>
-  </table>
-</form>
-
-  <app-giphy *ngFor = "let i of results"
-    [imageId] = "U5dPt0qZ7F1ks"
-    [imageUrl] = "i.imageUrl">
-  </app-giphy>
 
 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6">
+            <form #searchForm="ngForm" (ngSubmit)="processSearch()">
+                <table>
+                  <tr>
+                    <td>
+                      <input type="text" name="searchBox" placeholder="Please enter a search query" required ngModel>
+                      <button type="submit" [disabled]="searchForm.invalid">Search...</button>
+                    </td>
+                  </tr>
+                </table>
+              </form>
+              
+                <app-giphy *ngFor = "let i of results"
+                  [imageId] = "i.id"
+                  [imageUrl] = "i.imageUrl">
+                </app-giphy>
+        </div>
+        <div class="col-lg-6">
+            <h2>Another Container here</h2>
+            <app-basket [basket]="contents"></app-basket>
+        </div>
+    </div>
+</div>

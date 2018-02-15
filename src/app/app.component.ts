@@ -1,8 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpParams, HttpClient, HttpClientModule } from '@angular/common/http';
 import { Data } from './data';
 import { Result } from './result';
+import { GiphyserviceService } from './giphyservice.service';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
@@ -10,14 +12,30 @@ import { Result } from './result';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'My Giphy Search Application';
   url = 'https://api.giphy.com/v1/gifs/search';
   @ViewChild('searchForm') searchForm: NgForm;
   results: Result[];
+  contents: Result[] = [];
 
+  private addSub: Subscription;
+  private removeSub: Subscription;
 
-  constructor(private httpClient: HttpClient){
+  constructor(private httpClient: HttpClient, private giphySvc:GiphyserviceService){
+
+  }
+
+  ngOnInit(){
+    this.addSub = this.giphySvc.added.subscribe((data) => {
+      this.contents.unshift(data);
+    })
+
+    this.removeSub = this.giphySvc.removed.subscribe((i) => {
+      this.contents.splice(i, 1);
+    })
+
+    
 
   }
 
