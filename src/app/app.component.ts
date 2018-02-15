@@ -1,10 +1,13 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { HttpParams, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpParams, HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Data } from './data';
 import { Result } from './result';
 import { GiphyserviceService } from './giphyservice.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { HttpClientJsonpModule } from '@angular/common/http/src/module';
+import { jsonObject } from './jsonObject';
 
 
 @Component({
@@ -18,6 +21,7 @@ export class AppComponent implements OnInit {
   @ViewChild('searchForm') searchForm: NgForm;
   results: Result[];
   contents: Result[] = [];
+  jsonObject: jsonObject;
 
   private addSub: Subscription;
   private removeSub: Subscription;
@@ -64,7 +68,7 @@ export class AppComponent implements OnInit {
         this.results.push({
           id: i.id,
           slug: i.slug,
-          imageUrl: `https://media1.giphy.com/media/${i.id}/giphy.gif`
+          imageUrl: `https://media1.giphy.com/media/${i.id}/giphy.gif`,
         })
         console.log("i", i.id);
       }
@@ -73,5 +77,19 @@ export class AppComponent implements OnInit {
     
     console.log(">>> Submit Button Pressed " + this.searchForm.value.searchBox);
 
+  }
+  
+  postData(serverUrl: string, data:jsonObject){
+   
+    var httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})}
+    this.httpClient.post(serverUrl, JSON.stringify(data), httpOptions)
+    .subscribe((res) => {console.log(">>> httpPost", res);
+  })
+  }
+
+  saveList(){
+    this.jsonObject = {data: this.contents, userId: "test", collectionName: "testcol"};
+    console.log(this.postData('http://127.0.0.1:8080/GiphyProject/collections/', this.jsonObject));
+    console.log(JSON.stringify(this.jsonObject));
   }
 }
