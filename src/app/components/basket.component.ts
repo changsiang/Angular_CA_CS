@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Result } from '../result';
 import { GiphyserviceService } from '../giphyservice.service';
-import { Subscription } from 'rxjs/Subscription';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { jsonBasket } from '../jsonBasket';

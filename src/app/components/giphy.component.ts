@@ -50,6 +50,7 @@ export class GiphyComponent implements OnInit {
 
   searchFormSubmit(){
     this.searchQuery = this.searchForm.value.searchBox;
+    this.page = 0;
     this.processSearch();
 
   }
