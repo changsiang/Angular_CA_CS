@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GiphyserviceService } from '../giphyservice.service';
 import { Result } from '../result';
-import { HttpClient } from '@angular/common/http';
 import { Data } from '../data';
 import { NgForm } from '@angular/forms';
 
@@ -14,9 +13,8 @@ export class RetrieveComponent implements OnInit {
 
   @ViewChild('retrieveForm') retrieveForm: NgForm;
   retrievedList: Result[];
-  dipSAprojectUrl = 'http://127.0.0.1:8080/GiphyProject/collections/';
 
-  constructor(private giphySvc: GiphyserviceService, private httpClient: HttpClient) { }
+  constructor(private giphySvc: GiphyserviceService) { }
 
   ngOnInit() {
   }
@@ -24,9 +22,8 @@ export class RetrieveComponent implements OnInit {
   retrieveList(){
     this.retrievedList = [];
 
-    var queryUrl = this.dipSAprojectUrl + this.retrieveForm.value.userId + "/" + this.retrieveForm.value.collectionName;
-    this.httpClient.get<Data>(queryUrl)
-    .subscribe((data) => {
+    this.giphySvc.getSavedResults(this.retrieveForm.value.userId, this.retrieveForm.value.collectionName)
+    .then((data) => {
       console.log(">>> RetrieveData", data)
 
       for (let i of data.data){
