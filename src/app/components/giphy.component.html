@@ -1,8 +1,9 @@
-<span *ngFor="let i of results; let j = index">
-<button class="btn btn-link" (click)="onClick(j)">
-<img src="{{ i.imageUrl }}" id="{{ i.id }}" alt="{{ j }}" height="150px"/>
-</button>
+<!--TODO: Add Pagination-->
+<span *ngIf="results.length > 0">
+<app-pager [searchQuery]="searchQuery" [page]="page" [totalPages]="totalPages"></app-pager>
 </span>
-
-      <!--TODO: Add Pagination-->
-
+<span *ngFor="let i of results; let j = index">
+    <button class="btn btn-link" (click)="onClick(j)">
+        <img src="{{ i.imageUrl }}" id="{{ i.id }}" alt="{{ j }}" height="150px" />
+    </button>
+</span>

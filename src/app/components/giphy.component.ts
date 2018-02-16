@@ -12,9 +12,10 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class GiphyComponent implements OnInit {
 
-  readonly IMAGE_URL = 'https://media1.giphy.com/media/';
+  readonly IMAGE_URL = 'https://media2.giphy.com/media/';
   readonly ORIGINAL_SIZE = '/giphy.gif'
 
+  totalPages: number = 0;
   page: number = 0;
   searchQuery: string = " ";
   SearchUrl = 'https://api.giphy.com/v1/gifs/search';
@@ -22,7 +23,7 @@ export class GiphyComponent implements OnInit {
   limit = 25;
   result:Result;
   pagination: Pagination;
-  results:Result[];
+  results:Result[] = [];
 
   private searchQuerySub: Subscription;
   private returnSub: Subscription;
@@ -55,8 +56,7 @@ export class GiphyComponent implements OnInit {
       console.log("data ", data);
       console.log("pagination", data.pagination)
       this.pagination = {total_count: data.pagination.total_count, count: data.pagination.count, offset: data.pagination.offset};
-      console.log(">>> Current Page" + (Math.ceil(this.pagination.offset / this.pagination.count)).toString());
-      console.log(">>> Total Pages" + (Math.ceil(this.pagination.total_count / this.pagination.count)).toString());
+      this.totalPages = Math.ceil(this.pagination.total_count / this.pagination.count);
       for(let i of data.data)
       {
         this.results.push({

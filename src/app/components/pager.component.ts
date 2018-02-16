@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { GiphyserviceService } from '../giphyservice.service';
 
 @Component({
   selector: 'app-pager',
@@ -13,14 +14,20 @@ export class PagerComponent implements OnInit {
   @Input()
   totalPages: number = 0;
 
+  @Input()
+  searchQuery: string;
 
-  constructor() { }
-
-  next(){}
-
-  prev(){}
+  constructor(private giphySvc: GiphyserviceService) { }
 
   ngOnInit() {
+  }
+
+  next() {
+    this.giphySvc.searchQuery.next({ pageNumber: this.page + 1, searchQuery: this.searchQuery });
+  }
+
+  prev() {
+    this.giphySvc.searchQuery.next({ pageNumber: this.page - 1, searchQuery: this.searchQuery });
   }
 
 }
