@@ -13,13 +13,15 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BasketComponent } from './components/basket.component';
 import { GiphyserviceService } from './giphyservice.service';
 import { PagerComponent } from './components/pager.component';
+import { RetrieveComponent } from './components/retrieve.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GiphyComponent,
     BasketComponent,
-    PagerComponent
+    PagerComponent,
+    RetrieveComponent
   ],
   imports: [
     BrowserModule,

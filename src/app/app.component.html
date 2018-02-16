@@ -1,55 +1,32 @@
-<!--The content below is only a placeholder and can be replaced.-->
+<div class="center-block">
 <h1>
   Welcome to {{ title }}!
 </h1>
+</div>
 
 
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-4">
       <h2>Search for GIF Stickers</h2>
-      <form #searchForm="ngForm" (ngSubmit)="processSearch(4)">
-        <table>
-          <tr>
-            <td>
-              <input type="text" name="searchBox" placeholder="Please enter a search query" required ngModel>
-              <button type="submit" class="btn btn-primary" [disabled]="searchForm.invalid">Search...</button>
-            </td>
-          </tr>
-        </table>
+      <form #searchForm="ngForm" (ngSubmit)="processSearch()">
+        <input type="text" name="searchBox" placeholder="Please enter a search query" required ngModel>
+        <button type="submit" class="btn btn-primary" [disabled]="searchForm.invalid">Search...</button>
       </form>
+      <app-giphy></app-giphy>
 
-      <app-giphy *ngFor="let i of results; let j = index" [imageId]="i.id" [imageUrl]="i.imageUrl" [listIndex]="j">
-      </app-giphy>
 
-      <!--TODO: Add Pagination-->
-      <app-pager></app-pager>
-      
     </div>
     <div class="col-lg-4">
       <h2>Selected Sticker Collection</h2>
-      <form #selectedForm="ngForm" (ngSubmit)="saveList()">
-        <input type="text" name="userId" id="User ID" required ngModel>
-        <input type="text" name="collectionName" id="Collection Name" required ngModel>
-  
-      <button type="submit" class="btn btn-success" [disabled]="selectedForm.invalid">Save Sticker List</button>
-    </form>
-      <app-basket [basket]="contents"></app-basket>
+      <app-basket></app-basket>
     </div>
+
+
     <div class="col-lg-4">
       <h2>Retrieve Saved Collection</h2>
-
-      <form #retrieveForm="ngForm" (ngSubmit)="retrieveList()">
-        <input type="text" name="userId" placeholder="User ID" required ngModel>
-        <input type="text" name="collectionName" placeholder="Collection Name" required ngModel>
-
-        <button type="submit" class="btn btn-warning" [disabled]="retrieveForm.invalid">Retrieve Sticker List</button>
-      </form>
-
-      <span *ngFor="let i of retrievedList">
-        <img src={{i.imageUrl}} height="150px"/>
-      </span>
+      <app-retrieve></app-retrieve>
     </div>
-          
+
   </div>
 </div>
