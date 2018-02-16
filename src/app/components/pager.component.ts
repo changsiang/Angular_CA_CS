@@ -8,10 +8,10 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PagerComponent implements OnInit {
 
   @Input()
-  private page: number = 1;
+  page: number = 1;
 
   @Input()
-  private totalPages: number = 0;
+  totalPages: number = 0;
 
 
   constructor() { }

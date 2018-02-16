@@ -1,4 +1,8 @@
-<button class="btn btn-link" (click)="onClick()">
-<img src="{{ imageUrl }}" id="{{ imageId }}" alt="{{ listIndex }}" height="150px"/>
+<span *ngFor="let i of results; let j = index">
+<button class="btn btn-link" (click)="onClick(j)">
+<img src="{{ i.imageUrl }}" id="{{ i.id }}" alt="{{ j }}" height="150px"/>
 </button>
+</span>
+
+      <!--TODO: Add Pagination-->
 

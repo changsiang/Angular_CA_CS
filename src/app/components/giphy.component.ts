@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient, HttpClientModule }from '@angular/common/http';
 import { GiphyserviceService } from '../giphyservice.service';
 import { Result } from '../result';
+import { Pagination } from '../pagination';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-giphy',
@@ -10,24 +12,70 @@ import { Result } from '../result';
 })
 export class GiphyComponent implements OnInit {
 
-  readonly URL = 'https://media1.giphy.com/media/';
-  readonly ORIGINAL_SIZE = '/100.gif'
-  @Input() imageId: string;
-  @Input() imageUrl: string;
-  @Input() listIndex: number;
-  result:Result;
+  readonly IMAGE_URL = 'https://media1.giphy.com/media/';
+  readonly ORIGINAL_SIZE = '/giphy.gif'
 
-  ngOnInit() {
-  }
+  page: number = 0;
+  searchQuery: string = " ";
+  SearchUrl = 'https://api.giphy.com/v1/gifs/search';
+  apiKey = 'UPpDj2qgw8b0SQe2do0XFh0OTlc4zg0Q';
+  limit = 25;
+  result:Result;
+  pagination: Pagination;
+  results:Result[];
+
+  private searchQuerySub: Subscription;
+  private returnSub: Subscription;
+
 
   constructor(private giphySvc:GiphyserviceService){
+
+
   }
 
-  onClick(){
-    console.log("click>>>>> click here!!", this.imageUrl, this.imageId)
-    this.result = { id: this.imageId, imageUrl: this.imageUrl, slug: "Nothing"};
+  ngOnInit() {
+
+    this.searchQuerySub = this.giphySvc.searchQuery.subscribe((query) => {
+      this.page = query.pageNumber;
+      this.searchQuery = query.searchQuery;
+      this.processSearch();
+    })
+
+    this.returnSub = this.giphySvc.return.subscribe((data) =>{
+      this.results.push(data);
+    })
+
+  }
+
+  processSearch(){
+    this.results = [];
+    
+    this.giphySvc.getSearchResults(this.SearchUrl, this.searchQuery, this.page, this.apiKey, this.limit)
+    .then((data) => {
+      console.log("data ", data);
+      console.log("pagination", data.pagination)
+      this.pagination = {total_count: data.pagination.total_count, count: data.pagination.count, offset: data.pagination.offset};
+      console.log(">>> Current Page" + (Math.ceil(this.pagination.offset / this.pagination.count)).toString());
+      console.log(">>> Total Pages" + (Math.ceil(this.pagination.total_count / this.pagination.count)).toString());
+      for(let i of data.data)
+      {
+        this.results.push({
+          id: i.id,
+          slug: i.slug,
+          imageUrl: this.IMAGE_URL + `${i.id}` + this.ORIGINAL_SIZE,
+        })
+        console.log("i", i.id);
+    }
+  }  
+)
+  }
+
+
+  onClick(index: number){
+    console.log("click>>>>> click here!!", this.results[index].imageUrl, this.results[index].id)
+    this.result = this.results[index];
     this.giphySvc.added.next(this.result);
-    this.giphySvc.delete.next(this.listIndex);
+    this.results.splice(index, 1);
   }
 
 }

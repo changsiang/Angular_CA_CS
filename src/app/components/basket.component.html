@@ -1,5 +1,11 @@
+<form #basketForm="ngForm" (ngSubmit)="postData()">
+  <input type="text" name="userId" id="User ID" required ngModel>
+  <input type="text" name="collectionName" id="Collection Name" required ngModel>
+
+  <button type="submit" class="btn btn-success" [disabled]="selectedForm.invalid">Save Sticker List</button>
+</form>
+
 <div *ngIf="basket.length > 0">
-  <h2>List of GIFs</h2>
   <span *ngFor="let b of basket; let i = index">
   <button class="btn btn-link" (click)="removeFromBasket(i)">
       <img src="{{ b.imageUrl }}" id="{{ b.imageId }}" height="150px"/>

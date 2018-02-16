@@ -1,6 +1,6 @@
 import { Result } from "./result";
 
-export interface jsonObject{
+export interface jsonBasket{
     data: Result[];
     userId: string;
     collectionName: string;
