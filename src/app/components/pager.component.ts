@@ -8,18 +8,17 @@ import { GiphyserviceService } from '../giphyservice.service';
 })
 export class PagerComponent implements OnInit {
 
-  @Input()
+
   page: number = 1;
-
-  @Input()
   totalPages: number = 0;
-
-  @Input()
   searchQuery: string;
 
   constructor(private giphySvc: GiphyserviceService) { }
 
   ngOnInit() {
+    this.page = this.giphySvc.page;
+    this.totalPages = this.giphySvc.totalPages;
+    this.searchQuery = this.giphySvc.queryString;
   }
 
   next() {

@@ -17,6 +17,7 @@ export class RetrieveComponent implements OnInit {
   constructor(private giphySvc: GiphyserviceService) { }
 
   ngOnInit() {
+    this.retrievedList = this.giphySvc.retrievedList;
   }
 
   retrieveList(){
@@ -35,5 +36,6 @@ export class RetrieveComponent implements OnInit {
         console.log("i", i.id);
       }
     })
+    this.giphySvc.retrievedList = this.retrievedList;
   }
 }

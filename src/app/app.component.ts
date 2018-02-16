@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { GiphyserviceService } from './giphyservice.service';
 
@@ -9,18 +9,9 @@ import { GiphyserviceService } from './giphyservice.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent{
   title = 'My Giphy Sticker Book';
-  @ViewChild('searchForm') searchForm: NgForm;
 
-  constructor(private giphySvc:GiphyserviceService){
+  constructor(){
   }
-
-  ngOnInit() {}
-
-  processSearch(): void{
-    this.giphySvc.searchQuery.next({pageNumber: 0, searchQuery: this.searchForm.value.searchBox});
-    console.log(">>> Submit Button Pressed " + this.searchForm.value.searchBox);
-  }
-
 }

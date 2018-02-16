@@ -1,9 +1,10 @@
 <ul class="pager">
-    <li>
-      <button [disabled]="page === 0" (click)="prev()">Previous</button>
-    </li>
-    Page <b>{{ page + 1 }}</b> of {{ totalPages + 1}}
-    <li>
-      <button [disabled]="page === totalPages" (click)="next()">Next</button>
-    </li>
-  </ul>
+  <li>
+    <button class="btn btn-info btn-md" [disabled]="page === 0" (click)="prev()">Previous</button>
+  </li>
+  <li>Page
+    <b>{{ page + 1 }}</b> of {{ totalPages + 1}}</li>
+  <li>
+    <button class="btn btn-info btn-md" [disabled]="page === totalPages" (click)="next()">Next</button>
+  </li>
+</ul>

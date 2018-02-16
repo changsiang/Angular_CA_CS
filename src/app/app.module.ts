@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http'
-
+import { RouterModule, Routes } from "@angular/router";
 
 import { AppComponent } from './app.component';
 import { GiphyComponent } from './components/giphy.component';
@@ -14,6 +14,14 @@ import { BasketComponent } from './components/basket.component';
 import { GiphyserviceService } from './giphyservice.service';
 import { PagerComponent } from './components/pager.component';
 import { RetrieveComponent } from './components/retrieve.component';
+import { NavbarComponent } from './components/navbar.component';
+
+const ROUTES: Routes = [
+  { path: "", component: GiphyComponent },
+  { path: "basket", component: BasketComponent },
+  { path: "retrieve", component: RetrieveComponent },
+  { path: "**", redirectTo: '/', pathMatch: 'full'}
+];
 
 @NgModule({
   declarations: [
@@ -21,7 +29,8 @@ import { RetrieveComponent } from './components/retrieve.component';
     GiphyComponent,
     BasketComponent,
     PagerComponent,
-    RetrieveComponent
+    RetrieveComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +39,8 @@ import { RetrieveComponent } from './components/retrieve.component';
     HttpClientModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    RouterModule.forRoot(ROUTES)
   ],
   providers: [GiphyserviceService],
   bootstrap: [AppComponent]

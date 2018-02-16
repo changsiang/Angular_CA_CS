@@ -1,14 +1,42 @@
-<form #basketForm="ngForm" (ngSubmit)="postData()">
-  <input type="text" name="userId" id="User ID" required ngModel>
-  <input type="text" name="collectionName" id="Collection Name" required ngModel>
-
-  <button type="submit" class="btn btn-success" [disabled]="selectedForm.invalid">Save Sticker List</button>
-</form>
-
-<div *ngIf="basket.length > 0">
-  <span *ngFor="let b of basket; let i = index">
-  <button class="btn btn-link" (click)="removeFromBasket(i)">
-      <img src="{{ b.imageUrl }}" id="{{ b.imageId }}" height="150px"/>
-  </button>
+<div class="container">
+  <span *ngIf="basket.length >0">
+    <form #basketForm="ngForm" (ngSubmit)="postData()">
+      <div class="form-group row">
+        <div class="col-xs-3">
+          <label>User ID:</label>
+          <input type="text" name="userId" class="form-control input-lg" id="User ID" placeholder="User ID" required ngModel>
+        </div>
+        <div class="col-xs-6">
+          <label>Collection Name:</label>
+          <input type="text" name="collectionName" class="form-control input-lg" id="Collection Name" placeholder="Collection Name"
+            required ngModel>
+        </div>
+        <div class="col-xs-3">
+            <label></label><br/>
+          <button type="submit" class="btn btn-success btn-lg" [disabled]="basketForm.invalid">Save Sticker List</button>
+        </div>
+      </div>
+    </form>
   </span>
+
+  <div *ngIf="basket.length > 0">
+      <span *ngFor="let b of basket; let i = index">
+        <button class="btn btn-link" (click)="removeFromBasket(i)">
+          <img src="{{ b.imageUrl }}" id="{{ b.imageId }}" height="130px" />
+        </button>
+      </span>
+    </div>
+
+  <span *ngIf="basket.length === 0 && submitted === false">
+    <p>Looks like there is nothing here.</p>
+    <p>Click
+      <b>
+        <a href="">Here</a>
+      </b> to search for some gif to add into your basket.</p>
+  </span>
+
+
+  <div *ngIf="submitted === true">
+    Database updated successfully!
+  </div>
 </div>

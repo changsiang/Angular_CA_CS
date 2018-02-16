@@ -1,32 +1,9 @@
-<div class="center-block">
-<h1>
-  Welcome to {{ title }}!
-</h1>
+<style>
+  body { padding-top: 70px; }
+</style>
+<div>
+<app-navbar></app-navbar>
 </div>
-
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-4">
-      <h2>Search for GIF Stickers</h2>
-      <form #searchForm="ngForm" (ngSubmit)="processSearch()">
-        <input type="text" name="searchBox" placeholder="Please enter a search query" required ngModel>
-        <button type="submit" class="btn btn-primary" [disabled]="searchForm.invalid">Search...</button>
-      </form>
-      <app-giphy></app-giphy>
-
-
-    </div>
-    <div class="col-lg-4">
-      <h2>Selected Sticker Collection</h2>
-      <app-basket></app-basket>
-    </div>
-
-
-    <div class="col-lg-4">
-      <h2>Retrieve Saved Collection</h2>
-      <app-retrieve></app-retrieve>
-    </div>
-
-  </div>
-</div>
+<body>
+  <router-outlet></router-outlet>
+</body>

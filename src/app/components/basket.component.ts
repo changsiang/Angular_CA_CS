@@ -17,36 +17,29 @@ export class BasketComponent implements OnInit {
   @Input() basket: Result[] = [];
   result: Result;
   jsonBasket: jsonBasket;
-  dipSAprojectUrl = 'http://127.0.0.1:8080/GiphyProject/collections/'
-
-  private addSub: Subscription;
-  private removeSub: Subscription;
+  results: Result[];
+  submitted: boolean = false;
 
   constructor(private giphySvc: GiphyserviceService, private httpClient: HttpClient) { }
 
   ngOnInit(){
-    this.addSub = this.giphySvc.added.subscribe((data) => {
-      this.basket.unshift(data);
-    })
-
-    this.removeSub = this.giphySvc.removed.subscribe((i) => {
-      this.basket.splice(i, 1);
-    })
-
+    this.basket = this.giphySvc.basket;
+    this.results = this.giphySvc.results;
   }
 
   removeFromBasket(i: number) {
     this.result = this.basket[i];
-    this.giphySvc.removed.next(i);
-    this.giphySvc.return.next(this.result);
+    this.basket.splice(i , 1);
+    this.results.push(this.result);
+    this.giphySvc.basket = this.basket;
+    this.giphySvc.results = this.results;
+
   }
 
   postData(){
     this.jsonBasket = {data: this.basket, userId: this.selectedForm.value.userId, collectionName: this.selectedForm.value.collectionName};
-    var httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})}
-    this.httpClient.post(this.dipSAprojectUrl, JSON.stringify(this.basket), httpOptions)
-    .subscribe((res) => {console.log(">>> httpPost", res);
-    this.basket = [];
-  })
+    this.giphySvc.postSelectedGifs(this.jsonBasket);
+    this.basket = this.giphySvc.basket;
+    this.submitted = true;
   }
 }

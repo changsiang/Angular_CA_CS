@@ -7,17 +7,20 @@ import 'rxjs/add/operator/toPromise';
 import { jsonBasket } from './jsonBasket';
 
 @Injectable()
-export class GiphyserviceService {
+  export class GiphyserviceService {
 
-  added = new EventEmitter<Result>();
-  removed = new EventEmitter<number>();
-  delete = new EventEmitter<number>();
-  return = new EventEmitter<Result>();
   searchQuery = new EventEmitter<any>();
 
   searchUrl = 'https://api.giphy.com/v1/gifs/search';
   apiKey = 'UPpDj2qgw8b0SQe2do0XFh0OTlc4zg0Q';
-  servletUrl = 'http://127.0.0.1:8080/GiphyProject/collections/';
+  servletUrl = `/GiphyProject/collections/`;
+
+  basket: Result[] = [];
+  results: Result[] = [];
+  retrievedList: Result[] = [];
+  page: number = 0;
+  totalPages: number;
+  queryString: string;
 
 
 
@@ -48,6 +51,9 @@ export class GiphyserviceService {
     var httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})}
     this.httpClient.post(this.servletUrl, JSON.stringify(jsonBasket), httpOptions)
     .subscribe((res) => {console.log(">>> httpPost", res)})
+
+    //Reset the basket after the data is posted to the database
+    this.basket = [];
   }
 }
   

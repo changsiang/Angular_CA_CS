@@ -1,9 +1,29 @@
-<!--TODO: Add Pagination-->
-<span *ngIf="results.length > 0">
-<app-pager [searchQuery]="searchQuery" [page]="page" [totalPages]="totalPages"></app-pager>
-</span>
+<style>
+    img.logo {
+    padding-bottom: 1cm;
+}
+</style>
+<div class="container">
+
+<div *ngIf="results.length === 0">
+    <img src="https://media.giphy.com/media/3o6gbbuLW76jkt8vIc/giphy.gif" height="200px" class="center-block logo">
+</div>
+<form #searchForm="ngForm" (ngSubmit)="searchFormSubmit()">
+    <div class="input-group input-group-lg">
+    <input type="text" name="searchBox" class="form-control input-lg" placeholder="Enter a search query to start..." required ngModel>
+    <div class="input-group-btn">
+    <button type="submit" class="btn btn-primary" [disabled]="searchForm.invalid"><i class="glyphicon glyphicon-search"></i></button>
+</div>
+</div>
+</form>
+</div>
+
 <span *ngFor="let i of results; let j = index">
     <button class="btn btn-link" (click)="onClick(j)">
-        <img src="{{ i.imageUrl }}" id="{{ i.id }}" alt="{{ j }}" height="150px" />
+        <img src="{{ i.imageUrl }}" id="{{ i.id }}" alt="{{ j }}" height="130px" />
     </button>
 </span>
+<!--TODO: Add Pagination-->
+<span *ngIf="results.length > 0">
+        <app-pager></app-pager>
+    </span>

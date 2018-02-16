@@ -1,10 +1,27 @@
-<form #retrieveForm="ngForm" (ngSubmit)="retrieveList()">
-  <input type="text" name="userId" placeholder="User ID" required ngModel>
-  <input type="text" name="collectionName" placeholder="Collection Name" required ngModel>
-
-  <button type="submit" class="btn btn-warning" [disabled]="retrieveForm.invalid">Retrieve Sticker List</button>
-</form>
-
-<span *ngFor="let i of retrievedList">
-  <img src={{i.imageUrl}} height="150px" />
-</span>
+<style>
+  img {
+    padding-bottom: 5px;
+  }
+</style>
+<div class="container">
+  <form #retrieveForm="ngForm" (ngSubmit)="retrieveList()">
+    <div class="form-group row">
+      <div class="col-xs-3">
+        <label>User ID:</label>
+        <input type="text" name="userId" class="form-control input-lg" placeholder="User ID" required ngModel>
+      </div>
+      <div class="col-xs-6">
+        <label>Collection Name:</label>
+        <input type="text" name="collectionName" class="form-control input-lg" placeholder="Collection Name" required ngModel>
+      </div>
+      <div class="col-xs-3">
+        <label></label>
+        <br/>
+        <button type="submit" class="btn btn-warning btn-lg" [disabled]="retrieveForm.invalid">Retrieve Sticker List</button>
+      </div>
+    </div>
+  </form>
+  <span *ngFor="let i of retrievedList">
+    <img src={{i.imageUrl}} height="130px" />
+  </span>
+</div>
